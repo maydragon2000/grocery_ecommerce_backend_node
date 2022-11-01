@@ -30,7 +30,7 @@ const addAllProducts = async (req, res) => {
 
 const getShowingProducts = async (req, res) => {
   try {
-    const products = await Product.find({ status: 'Show' }).sort({ _id: -1 }).limit(300);
+    const products = await Product.find({ status: 'Show' }).sort({ _id: -1 }).limit(1000);
     res.send(products);
   } catch (err) {
     res.status(500).send({
