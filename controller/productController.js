@@ -30,7 +30,7 @@ const addAllProducts = async (req, res) => {
 
 const getShowingProducts = async (req, res) => {
   try {
-    const products = await Product.find({ status: 'Show' }).sort({ _id: -1 }).limit(1000);
+    const products = await Product.find({ status: 'Show' }).sort({ _id: -1 }).limit(100);
     res.send(products);
   } catch (err) {
     res.status(500).send({
@@ -53,7 +53,7 @@ const getDiscountedProducts = async (req, res) => {
 };
 
 const getAllProducts = async (req, res) => {
-  const { title, category, price, page, limit } = req.query;
+  const { title, category, price, page, limit, children } = req.query;
   console.log(req.query);
   const queryObject = {};
   
@@ -72,6 +72,11 @@ const getAllProducts = async (req, res) => {
   if (category) {
     // queryObject.category = { $regex: category, $options: 'i' };
     queryObject.parent = { $regex: category, $options: 'i' };
+  }
+  console.log(children, "children");
+
+  if (children) {
+    queryObject.children = { $regex: children, $options: 'i' };
   }
 
   const pages = Number(page);
